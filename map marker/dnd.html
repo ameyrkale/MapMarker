@@ -1,0 +1,59 @@
+<?php 
+$stamp = imagecreatefrompng('pointer.png');
+$im = imagecreatefrompng('photo.png');
+$marge_right = 50;
+$marge_bottom = 50;
+$sx = imagesx($stamp);
+$sy = imagesy($stamp);
+imagecopy($im, $stamp, imagesx($im) - $sx - $marge_right, imagesy($im) - $sy - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp));
+header('Content-type: image/png');
+imagepng($im);
+imagedestroy($im);
+?>
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drag and Drop</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  <!--#draggable { width: 150px; height: 150px; padding: 0.5em; } -->
+  #draggable { background-image: url(pointer.png); width: 2px;  height: 1px;
+  }
+  #dropback { background-image: url(photo.png); width: 1100px;  height: 500px;
+  background-repeat:none;
+  }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#draggable" ).draggable({
+        drag: function(){
+            var offset = $(this).offset();
+            var xPos = offset.left;
+            var yPos = offset.top;
+            $('#posX').text('x: ' + xPos);
+            $('#posY').text('y: ' + yPos);
+        }
+    });
+  } );
+  </script>
+</head>
+<body>
+ 
+<div id="dropback">
+</div>
+ 
+<div id="draggable" class="ui-widget-content">
+  <ul>
+        <li id="posX"></li>
+        <li id="posY"></li>
+  </ul>
+</div>
+
+</body>
+</html>
